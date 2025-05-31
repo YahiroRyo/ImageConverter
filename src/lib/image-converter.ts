@@ -1,7 +1,7 @@
 'use client'
 
 import { ImageMagick, initializeImageMagick, MagickFormat, MagickGeometry } from '@imagemagick/magick-wasm'
-import { parseError, logError, type ErrorInfo } from './error-handler'
+import { parseError, logError } from './error-handler'
 
 let isInitialized = false
 

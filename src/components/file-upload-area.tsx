@@ -4,9 +4,10 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Upload, Shield, ImageIcon, Info } from 'lucide-react'
+import { Upload, Shield, ImageIcon } from 'lucide-react'
 import { formatFileSize } from '@/lib/image-converter'
 import FormatListDialog from './format-list-dialog'
+import Image from 'next/image'
 
 export interface UploadedFile {
   file: File
@@ -111,9 +112,11 @@ export default function FileUploadArea({
           <div className="p-6 border rounded-lg bg-muted/30 dark:bg-muted/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <img 
+                <Image
                   src={uploadedFile.preview} 
                   alt="Preview" 
+                  width={64}
+                  height={64}
                   className="h-16 w-16 object-cover rounded-lg shadow-sm"
                 />
                 <div>

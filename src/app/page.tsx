@@ -14,20 +14,9 @@ import {
   Download,
   ArrowRight,
   Check,
-  Star,
-  Info
+  Star
 } from 'lucide-react'
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { getImageFormats, getInputImageFormats, type ImageFormat } from '@/lib/image-formats'
-import FormatListDialog, { categorizeFormats } from '@/components/format-list-dialog'
+import FormatListDialog from '@/components/format-list-dialog'
 
 export default function HomePage() {
   return (
