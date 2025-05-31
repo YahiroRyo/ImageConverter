@@ -1,4 +1,4 @@
-import ImageConverter from '@/components/ImageConverter'
+import ImageConverter from '@/components/image-converter'
 
 export default function ConverterPage() {
   return (

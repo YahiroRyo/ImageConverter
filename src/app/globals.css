@@ -80,6 +80,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 64px;
 }
 
 * {
@@ -136,4 +137,12 @@ a {
 /* スクロールバーのコーナー */
 .custom-scrollbar::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* Navigation Sticky Fix */
+nav[style*="position: sticky"] {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
 }

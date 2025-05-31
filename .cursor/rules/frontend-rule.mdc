@@ -1,0 +1,296 @@
+---
+description: frontendの機能やファイルを作成・編集・削除する際に見てください。
+globs: 
+alwaysApply: false
+---
+# Closed Image Converter フロントエンド開発ルール
+
+## プロジェクト概要
+
+Closed Image Converterは、**完全プライベート画像変換サービス**です。ImageMagick WASMを活用し、画像データをサーバーに送信することなく、ブラウザ内で画像変換処理を完結させます。
+
+### 主要技術スタック
+- **フレームワーク**: Next.js 15.3.3 (App Router)
+- **言語**: TypeScript
+- **UI フレームワーク**: React 19 + Radix UI + Tailwind CSS
+- **画像処理**: ImageMagick WASM (@imagemagick/magick-wasm)
+- **状態管理**: React Hooks (useState, useEffect)
+- **コンポーネント**: shadcn/ui コンポーネント
+
+## アーキテクチャ
+
+### ディレクトリ構造
+```
+src/
+├── app/                     # Next.js App Router
+│   ├── page.tsx             # ホームページ（ランディングページ）
+│   ├── layout.tsx           # レイアウトコンポーネント
+│   ├── globals.css          # グローバルスタイル
+│   └── converter/           # 変換ページディレクトリ
+├── components/              # 再利用可能なReactコンポーネント
+│   ├── ui/                  # shadcn/ui コンポーネント（外部管理）
+│   ├── ImageConverter.tsx   # メイン変換機能コンポーネント
+│   ├── file-upload-area.tsx # ファイルアップロード機能
+│   ├── conversion-settings.tsx # 変換設定UI
+│   ├── conversion-result.tsx # 変換結果表示
+│   ├── format-list-dialog.tsx # フォーマット一覧モーダル
+│   └── privacy-info-card.tsx # プライバシー情報表示
+└── lib/                     # ビジネスロジック・ユーティリティ
+    ├── image-converter.ts   # 画像変換コアロジック
+    ├── image-formats.ts     # 画像フォーマット定義・管理
+    ├── error-handler.ts     # エラーハンドリングシステム
+    └── utils.ts             # 汎用ユーティリティ
+```
+
+## コンポーネント設計
+
+### 1. ImageConverter.tsx（メインコンポーネント）
+**責務**: アプリケーション全体の状態管理と画像変換フロー制御
+
+**主要State**:
+```typescript
+const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null)
+const [outputFormat, setOutputFormat] = useState<string>('PNG')
+const [isConverting, setIsConverting] = useState(false)
+const [conversionResult, setConversionResult] = useState<ConversionResultData | null>(null)
+const [conversionSettings, setConversionSettings] = useState<ConversionSettings>({...})
+```
+
+**主要機能**:
+- ファイルアップロード制御
+- 変換設定管理
+- 変換処理実行
+- エラーハンドリング統合
+- 結果表示制御
+
+### 2. FileUploadArea.tsx
+**責務**: ファイルアップロードUI、ドラッグ&ドロップ、プレビュー表示
+
+**特徴**:
+- react-dropzoneを使用したドラッグ&ドロップサポート
+- 画像プレビュー機能
+- ファイル情報表示（サイズ、タイプ、寸法）
+- 対応フォーマット情報の簡潔表示
+
+### 3. ConversionSettingsPanel.tsx
+**責務**: 出力フォーマット選択と変換設定UI
+
+**統合機能**:
+- **出力フォーマット選択**: Command UIを使用した検索可能・スクロール可能なセレクタ
+- **画質調整**: スライダー（1-100%）
+- **リサイズ設定**: 幅・高さ指定、アスペクト比維持オプション
+- **変換ボタン**: プログレスバー付き
+
+**フォーマット分類**:
+- 🔥 人気フォーマット（JPEG, PNG, WebP等）
+- 🚀 次世代フォーマット（JXL, QOI, AVIF）
+- 💼 プロフェッショナル（PSB, AI, DPX, CIN, EXR等）
+- 📁 その他のフォーマット
+
+### 4. ConversionResult.tsx
+**責務**: 変換結果表示、ダウンロード機能、エラー表示
+
+**機能**:
+- 成功時: 変換後ファイル情報、ダウンロードボタン
+- エラー時: ユーザーフレンドリーなエラーメッセージ、推奨アクション表示
+
+### 5. FormatListDialog.tsx
+**責務**: 対応フォーマット詳細情報のモーダル表示
+
+**機能**:
+- タブ分けされたフォーマット一覧（読み込み・書き出し）
+- カテゴリ分類表示（Web用、RAW、プロフェッショナル等）
+- 各フォーマットの詳細説明
+
+## ビジネスロジック
+
+### image-converter.ts
+**核となる画像変換ロジック**
+
+**主要関数**:
+```typescript
+// メイン変換関数
+convertImage(arrayBuffer: ArrayBuffer, inputMimeType: string, outputFormat: string, options?: ConversionOptions): Promise<ConversionResult>
+
+// ファイル名生成
+generateOutputFilename(originalName: string, newFormat: string): string
+
+// ダウンロード機能
+downloadFile(data: Uint8Array, filename: string): void
+
+// フォーマット可用性チェック
+isMagickFormatAvailable(format: string): boolean
+```
+
+**変換オプション**:
+```typescript
+interface ConversionOptions {
+  quality?: number;           // 1-100の画質設定
+  resize?: {
+    width?: number;
+    height?: number;
+    maintainAspectRatio?: boolean;
+  };
+}
+```
+
+### image-formats.ts
+**画像フォーマット定義・管理**
+
+**主要機能**:
+- 85種類の読み込み対応フォーマット
+- 92種類の書き出し対応フォーマット
+- フォーマット検索・分類機能
+- 人気フォーマットの定義
+
+**主要関数**:
+```typescript
+getImageFormats(): ImageFormat[]          // 全フォーマット取得
+getInputImageFormats(): ImageFormat[]     // 読み込み対応フォーマット
+getWritableFormats(): ImageFormat[]       // 書き出し対応フォーマット
+getFormatInfo(formatName: string): ImageFormat | undefined
+getImageFormatStats(): void               // 統計情報（開発用）
+```
+
+### error-handler.ts
+**包括的エラーハンドリングシステム**
+
+**エラーカテゴリ**:
+- `initialization`: WASM初期化関連
+- `format`: フォーマット関連
+- `memory`: メモリ関連
+- `processing`: 処理関連
+- `file`: ファイル関連
+- `network`: ネットワーク関連
+- `unknown`: 不明なエラー
+
+**主要機能**:
+```typescript
+parseError(error: unknown): ErrorInfo     // エラー解析・日本語化
+logError(error: unknown, errorInfo: ErrorInfo): void  // エラーログ
+getRecommendedActions(category: ErrorInfo['category']): string[]  // 推奨アクション
+```
+
+**エラー情報構造**:
+```typescript
+interface ErrorInfo {
+  userMessage: string;        // ユーザー向け日本語メッセージ
+  category: string;           // エラーカテゴリ
+  recoverable: boolean;       // 復旧可能性
+  suggestions?: string[];     // 具体的な解決方法
+}
+```
+
+## UI/UXガイドライン
+
+### レイアウト原則
+1. **2カラム構成**: 左側（画像プレビュー）、右側（変換設定）
+2. **情報階層化**: 詳細情報はモーダルに分離
+3. **責務統合**: 関連機能は同一コンポーネントに統合
+4. **視覚的分離**: カード形式でセクション区分
+
+### カラーパレット
+- **プライマリ**: プライバシー重視のグリーン系
+- **セカンダリ**: 機能ごとの色分け（人気:デフォルト、次世代:ブルー、プロ:パープル）
+- **ステータス**: 成功（グリーン）、エラー（レッド）、警告（イエロー）
+
+### エラー表示原則
+1. **ユーザーフレンドリー**: 技術用語を避けた日本語メッセージ
+2. **具体的解決策**: 「別のフォーマットをお試しください」等の明確な指示
+3. **復旧可能性**: 回復可能なエラーか明示
+4. **段階的詳細**: 基本メッセージ → 推奨アクション → 開発者向け詳細
+
+## データフロー
+
+### ファイルアップロードフロー
+1. `FileUploadArea` でファイル受取
+2. `UploadedFile` 型でファイル情報構造化
+3. `ImageConverter` で状態管理
+4. プレビュー表示、設定UI表示
+
+### 変換処理フロー
+1. 設定値バリデーション
+2. フォーマット可用性チェック
+3. ArrayBuffer変換
+4. ImageMagick WASM実行
+5. 結果処理・エラーハンドリング
+6. UI更新
+
+### エラーハンドリングフロー
+1. エラー発生
+2. `parseError()` で解析・分類
+3. 日本語メッセージ生成
+4. 推奨アクション提示
+5. 開発者向けログ出力
+
+## 開発・保守ガイドライン
+
+### TypeScript活用
+- 全コンポーネントで型安全性確保
+- interface定義によるデータ構造明確化
+- 汎用型（ジェネリクス）の活用
+
+### パフォーマンス考慮
+- 大容量ファイル処理時のメモリ管理
+- プログレスバーによるUX向上
+- 不要なre-renderingの回避
+
+### アクセシビリティ
+- キーボードナビゲーション対応
+- ARIA属性の適切な使用
+- スクリーンリーダー対応
+
+### テスト戦略
+- コンポーネント単体テスト
+- エラーハンドリング機能テスト
+- 形式変換機能テスト
+
+### セキュリティ
+- クライアントサイド処理徹底
+- ファイルタイプバリデーション
+- XSS対策（React組み込み）
+
+## 拡張・カスタマイズポイント
+
+### 新フォーマット追加
+1. `image-formats.ts` にフォーマット定義追加
+2. ImageMagick WASM対応確認
+3. カテゴリ分類・UI表示調整
+
+### 新機能追加
+1. `ConversionOptions` インターフェース拡張
+2. `image-converter.ts` に処理ロジック追加
+3. UI コンポーネント更新
+
+### エラーパターン追加
+1. `error-handler.ts` のパターン定義追加
+2. カテゴリ分類・メッセージ定義
+3. テストケース追加
+
+## パフォーマンス最適化
+
+### バンドルサイズ最適化
+- Tree shakingによる未使用コード除去
+- ImageMagick WASMの必要最小限読み込み
+- Radix UIコンポーネントの選択的インポート
+
+### ランタイム最適化
+- React.memo による不要な再レンダリング防止
+- useMemo, useCallback による計算結果キャッシュ
+- プログレッシブローディング
+
+## 今後の拡張予定
+
+### UI/UX改善
+- ダークモード対応
+- PWA化
+- モバイル最適化
+
+### 技術改善
+- Web Workers活用による処理分離
+- IndexedDB による設定永続化
+- Service Worker によるオフライン対応
+
+---
+
+このドキュメントは、新規開発者やAIアシスタントが迅速にプロジェクトを理解し、効率的に開発・保守作業を進められるよう設計されています。 

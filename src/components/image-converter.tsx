@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
 import { Shield } from 'lucide-react'
 import { 
   convertImage, 
@@ -141,32 +140,14 @@ export default function ImageConverter() {
 
   return (
     <div className="min-h-screen bg-gray-50/30">
-      <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-        {/* ヘッダー */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full p-2 shadow-lg">
-              <Image 
-                src="/icon.png"
-                alt="Closed Image Converter"
-                width={48}
-                height={48}
-                className="rounded-full"
-                priority
-              />
-            </div>
-            <h1 className="text-3xl font-bold tracking-tight">Closed Image Converter</h1>
-          </div>
-          <div className="space-y-2">
-            <p className="text-lg text-muted-foreground">
-              完全プライベート画像変換サービス
-            </p>
-            <div className="flex items-center justify-center gap-2 text-sm">
-              <Shield className="h-4 w-4 text-green-600" />
-              <span className="text-green-700 font-medium">
-                サーバーに画像データを送信しません
-              </span>
-            </div>
+      <div className="max-w-6xl mx-auto px-4 py-6 space-y-8">
+        {/* 簡素化されたヘッダー */}
+        <div className="text-center space-y-2">
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <Shield className="h-4 w-4 text-green-600" />
+            <span className="text-green-700 font-medium">
+              サーバーに画像データを送信しません
+            </span>
           </div>
         </div>
 
