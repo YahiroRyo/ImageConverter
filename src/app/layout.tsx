@@ -81,14 +81,28 @@ export const metadata: Metadata = {
     creator: '@closed_converter',
     site: '@closed_converter',
   },
-  icons: {
-    icon: [
-      { url: '/icon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
-    ],
-    shortcut: '/icon.ico',
-    apple: '/icon.png',
-  },
+  icons: [
+    {
+      rel: 'icon',
+      url: '/icon.ico',
+      sizes: 'any',
+    },
+    {
+      rel: 'icon',
+      url: '/icon.png',
+      type: 'image/png',
+      sizes: '32x32',
+    },
+    {
+      rel: 'shortcut icon',
+      url: '/icon.ico',
+    },
+    {
+      rel: 'apple-touch-icon',
+      url: '/icon.png',
+      sizes: '180x180',
+    },
+  ],
   manifest: '/manifest.json',
   metadataBase: new URL('https://cic.nexusolareth.uk'),
   alternates: {
