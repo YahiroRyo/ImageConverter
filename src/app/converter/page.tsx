@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: 'https://cic.nexusolareth.uk/converter',
     images: [
       {
-        url: '/og-image-converter.png',
+        url: '/og-image-converter.jpeg',
         width: 1200,
         height: 630,
         alt: '画像変換ツール - 様々なフォーマットに対応',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     title: '画像変換ツール - Closed Image Converter',
     description: '85種類の読み込み・92種類の出力に対応した完全プライベートな画像変換ツール。RAW、JPEG、PNG、WebP、AVIF、HEICなど様々なフォーマットに変換可能。',
-    images: ['/og-image-converter.png'],
+    images: ['/og-image-converter.jpeg'],
   },
   alternates: {
     canonical: 'https://cic.nexusolareth.uk/converter',

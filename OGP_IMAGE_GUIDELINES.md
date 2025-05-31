@@ -2,15 +2,15 @@
 
 ## 必要な画像
 
-### 1. メインOGP画像 (`/public/og-image.png`)
+### 1. メインOGP画像 (`/public/og-image.jpeg`)
 - **サイズ**: 1200x630px
 - **用途**: Facebook、Twitter、LinkedIn等のメイン共有画像
 
-### 2. 正方形OGP画像 (`/public/og-image-square.png`)
+### 2. 正方形OGP画像 (`/public/og-image-square.jpeg`)
 - **サイズ**: 1200x1200px  
 - **用途**: 一部のSNSで正方形表示される場合用
 
-### 3. 変換ツール専用OGP画像 (`/public/og-image-converter.png`)
+### 3. 変換ツール専用OGP画像 (`/public/og-image-converter.jpeg`)
 - **サイズ**: 1200x630px
 - **用途**: `/converter`ページ専用
 
@@ -27,7 +27,7 @@
 
 ### レイアウト要素
 
-#### メインOGP画像 (`og-image.png`)
+#### メインOGP画像 (`og-image.jpeg`)
 ```
 背景: 白からライトグリーンのグラデーション
 ロゴ: Closed Image Converterアイコン（左上）
@@ -38,7 +38,7 @@
 プライバシーアイコン: 盾マーク（右下）
 ```
 
-#### 変換ツール画像 (`og-image-converter.png`)
+#### 変換ツール画像 (`og-image-converter.jpeg`)
 ```
 背景: テクノロジー感のあるグラデーション
 メインタイトル: "画像変換ツール"
@@ -47,7 +47,7 @@
 プライバシー強調: "データは端末内でのみ処理"
 ```
 
-#### 正方形画像 (`og-image-square.png`)
+#### 正方形画像 (`og-image-square.jpeg`)
 ```
 中央配置: Closed Image Converterロゴ
 サブテキスト: "プライベート画像変換"

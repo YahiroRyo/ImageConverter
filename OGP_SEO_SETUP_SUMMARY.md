@@ -19,8 +19,8 @@ Closed Image Converterプロジェクトに対して、2024年の最新ベスト
 - ✅ 完全なOGP基本設定
 - ✅ サイト名・URL・タイトル・説明文
 - ✅ 複数サイズのOGP画像設定
-  - メイン画像: `/og-image.png` (1200x630px)
-  - 正方形画像: `/og-image-square.png` (1200x1200px)
+  - メイン画像: `/og-image.jpeg` (1200x630px)
+  - 正方形画像: `/og-image-square.jpeg` (1200x1200px)
 - ✅ 日本語ロケール設定
 
 #### Twitter Card設定
@@ -95,15 +95,15 @@ Closed Image Converterプロジェクトに対して、2024年の最新ベスト
 
 以下の3つの画像ファイルを作成して`public/`フォルダに配置する必要があります：
 
-1. **`og-image.png`** (1200x630px)
+1. **`og-image.jpeg`** (1200x630px)
    - Facebook、Twitter、LinkedInなどのメイン共有画像
    - 用途：ホームページのOGP
 
-2. **`og-image-square.png`** (1200x1200px)
+2. **`og-image-square.jpeg`** (1200x1200px)
    - 正方形表示に対応
    - 用途：一部SNSでの正方形表示時
 
-3. **`og-image-converter.png`** (1200x630px)
+3. **`og-image-converter.jpeg`** (1200x630px)
    - 変換ツール専用の画像
    - 用途：`/converter`ページのOGP
 
