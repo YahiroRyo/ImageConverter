@@ -1,0 +1,37 @@
+{
+  "name": "Closed Image Converter",
+  "short_name": "CIC",
+  "description": "完全プライベート画像変換サービス",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": [
+    "utilities",
+    "productivity",
+    "photo"
+  ],
+  "lang": "ja",
+  "scope": "/",
+  "id": "closed-image-converter"
+} 

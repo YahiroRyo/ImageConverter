@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cic.nexusolareth.uk/sitemap.xml
+
+# Allow all web crawlers
+User-agent: *
+Disallow:
+
+# Block ChatGPT and other AI crawlers if desired
+# User-agent: ChatGPT-User
+# Disallow: /
+
+# User-agent: CCBot
+# Disallow: /
+
+# User-agent: anthropic-ai
+# Disallow: /
+
+# User-agent: Claude-Web
+# Disallow: / 
