@@ -66,10 +66,11 @@ export const metadata: Metadata = {
     siteName: 'Closed Image Converter',
     images: [
       {
-        url: '/og-image.jpeg',
+        url: 'https://cic.nexusolareth.uk/og-image.jpeg',
         width: 1200,
         height: 630,
         alt: 'Closed Image Converter - プライベート重視の画像変換ツール',
+        type: 'image/jpeg',
       }
     ],
   },
@@ -77,7 +78,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Closed Image Converter - 完全プライベート画像変換',
     description: 'サーバーに画像データを送信しない、100%クライアントサイドで動作する安心・安全な画像変換サービス。ImageMagick WASMを使用して85種類の読み込み・92種類の出力に対応。',
-    images: ['/og-image.jpeg'],
+    images: ['https://cic.nexusolareth.uk/og-image.jpeg'],
     creator: '@closed_converter',
     site: '@closed_converter',
   },
@@ -112,6 +113,8 @@ export const metadata: Metadata = {
   classification: 'Tools',
   other: {
     'format-detection': 'telephone=no',
+    'theme-color': '#10b981',
+    'og:image:secure_url': 'https://cic.nexusolareth.uk/og-image.jpeg',
   }
 };
 
