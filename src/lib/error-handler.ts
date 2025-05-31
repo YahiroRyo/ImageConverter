@@ -217,6 +217,96 @@ const ERROR_PATTERNS: Array<{
       'ファイルを再選択してください',
       'ファイルのアクセス権限を確認してください'
     ]
+  },
+
+  // FFmpeg WASM関連エラー
+  {
+    pattern: /FFmpeg.*初期化.*失敗|Failed to initialize FFmpeg/i,
+    category: 'initialization',
+    userMessage: 'FFmpeg処理エンジンの初期化に失敗しました',
+    recoverable: true,
+    suggestions: [
+      'ページを再読み込みしてください',
+      'インターネット接続を確認してください',
+      'ブラウザのキャッシュをクリアしてください'
+    ]
+  },
+  {
+    pattern: /SharedArrayBuffer.*not defined|Cross-Origin.*required/i,
+    category: 'initialization',
+    userMessage: 'ブラウザのセキュリティ制限によりFFmpegを使用できません',
+    recoverable: false,
+    suggestions: [
+      'Chrome、Firefox、Safariなどの対応ブラウザをお使いください',
+      'HTTPSサイトでアクセスしてください'
+    ]
+  },
+  {
+    pattern: /FFmpeg.*インスタンス.*初期化.*失敗|FFmpeg instance.*failed/i,
+    category: 'initialization',
+    userMessage: 'FFmpegエンジンの起動に失敗しました',
+    recoverable: true,
+    suggestions: [
+      'ページを再読み込みしてください',
+      'しばらく時間をおいてからお試しください',
+      '別のブラウザでお試しください'
+    ]
+  },
+  {
+    pattern: /FFmpeg.*コマンド.*実行.*失敗|FFmpeg command.*failed/i,
+    category: 'processing',
+    userMessage: 'FFmpegでの画像処理に失敗しました',
+    recoverable: true,
+    suggestions: [
+      '別の出力フォーマットをお試しください',
+      '画像サイズを小さくしてお試しください',
+      '品質設定を変更してお試しください'
+    ]
+  },
+  {
+    pattern: /FFmpeg.*出力.*データ.*無効|FFmpeg output.*invalid/i,
+    category: 'processing',
+    userMessage: 'FFmpegの処理結果が無効です',
+    recoverable: true,
+    suggestions: [
+      '別の画像ファイルでお試しください',
+      '出力フォーマットを変更してお試しください',
+      'ページを再読み込みしてお試しください'
+    ]
+  },
+  {
+    pattern: /ImageMagickとFFmpeg.*両方.*エラー|Both ImageMagick and FFmpeg.*failed/i,
+    category: 'processing',
+    userMessage: '複数の処理エンジンでエラーが発生しました',
+    recoverable: true,
+    suggestions: [
+      '画像ファイルが破損していないか確認してください',
+      'より一般的なフォーマット（JPEG、PNG）をお試しください',
+      '画像サイズを小さくしてお試しください',
+      'ページを再読み込みしてお試しください'
+    ]
+  },
+  {
+    pattern: /ErrnoError.*FS error|FFmpeg.*FS error|unable to open.*No such file/i,
+    category: 'file',
+    userMessage: 'ファイル処理でエラーが発生しました',
+    recoverable: true,
+    suggestions: [
+      '別の画像ファイルをお試しください',
+      'ファイル形式を確認してください',
+      'ページを再読み込みしてお試しください'
+    ]
+  },
+  {
+    pattern: /FFmpeg.*command.*failed|Invalid data found when processing input/i,
+    category: 'processing',
+    userMessage: 'FFmpeg処理でエラーが発生しました',
+    recoverable: true,
+    suggestions: [
+      '別の出力フォーマットをお試しください',
+      '画像が破損していないか確認してください',
+      'より一般的な画像フォーマットをお試しください'
+    ]
   }
 ];
 

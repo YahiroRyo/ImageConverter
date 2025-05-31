@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Shield, Lock, ImageIcon } from 'lucide-react'
+import { Shield, Lock, ImageIcon, Zap } from 'lucide-react'
 
 export default function PrivacyInfoCard() {
   return (
@@ -38,6 +38,15 @@ export default function PrivacyInfoCard() {
             <p className="font-medium text-green-800 dark:text-green-300">高品質変換</p>
             <p className="text-green-700 dark:text-green-300">
               ImageMagick WASM技術により、プライバシーを保護しながら高品質な画像変換を実現します。
+            </p>
+          </div>
+        </div>
+        <div className="flex items-start gap-2">
+          <Zap className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium text-green-800 dark:text-green-300">冗長性とエラー対応</p>
+            <p className="text-green-700 dark:text-green-300">
+              メイン処理エンジンでエラーが発生した場合、自動的にFFmpeg WASMエンジンにフォールバックして変換を継続します。
             </p>
           </div>
         </div>

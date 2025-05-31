@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Download, AlertCircle, CheckCircle, RefreshCw, HelpCircle } from 'lucide-react'
+import { Download, AlertCircle, CheckCircle, RefreshCw, HelpCircle, Info } from 'lucide-react'
 import { formatFileSize } from '@/lib/image-converter'
 import { parseError } from '@/lib/error-handler'
 
@@ -14,6 +14,7 @@ export interface ConversionResultData {
   originalSize?: number
   newSize?: number
   error?: string
+  usedFallback?: boolean
 }
 
 interface ConversionResultProps {
@@ -49,6 +50,18 @@ export default function ConversionResult({
                 変換が完了しました！
               </AlertDescription>
             </Alert>
+
+            {/* フォールバック使用の通知 */}
+            {result.usedFallback && (
+              <Alert>
+                <Info className="h-4 w-4" />
+                <AlertTitle>代替エンジンを使用</AlertTitle>
+                <AlertDescription>
+                  メイン処理エンジンでエラーが発生したため、FFmpeg処理エンジンで変換を完了しました。
+                  画質やファイルサイズが通常と異なる場合がありますが、正常に変換されています。
+                </AlertDescription>
+              </Alert>
+            )}
             
             {result.originalSize && result.newSize && (
               <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 dark:bg-muted/30 rounded-lg">

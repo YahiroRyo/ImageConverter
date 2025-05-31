@@ -6,10 +6,9 @@ import {
   convertImage, 
   downloadFile, 
   generateOutputFilename,
-  isMagickFormatAvailable,
-  getAvailableMagickFormats,
   type ConversionOptions 
 } from '@/lib/image-converter'
+import { isFFmpegFormatSupported } from '@/lib/ffmpeg-converter'
 import { parseError, logError } from '@/lib/error-handler'
 import { getImageFormatStats } from '@/lib/image-formats'
 
@@ -58,21 +57,11 @@ export default function ImageConverter() {
   const handleConvert = async () => {
     if (!uploadedFile) return
 
-    // フォーマットの有効性をチェック
-    if (!isMagickFormatAvailable(outputFormat)) {
-      console.error(`Selected format '${outputFormat}' is not available in MagickFormat`)
-      console.log('Available formats:', getAvailableMagickFormats().slice(0, 20))
-      
-      // エラーハンドラーを使用
-      const errorMessage = `Unsupported output format: ${outputFormat}. Please choose a supported format.`
-      const errorInfo = parseError(errorMessage)
-      logError(errorMessage, errorInfo)
-      
-      setConversionResult({
-        success: false,
-        error: errorInfo.userMessage
-      })
-      return
+    // 開発時のデバッグ情報
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`選択された出力フォーマット: ${outputFormat}`)
+      console.log(`FFmpegサポート: ${isFFmpegFormatSupported(outputFormat)}`)
+      console.log('ImageMagickまたはFFmpegのいずれかで変換を試行します')
     }
 
     setIsConverting(true)

@@ -70,12 +70,6 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Closed Image Converter - プライベート重視の画像変換ツール',
-      },
-      {
-        url: '/og-image-square.jpeg', 
-        width: 1200,
-        height: 1200,
-        alt: 'Closed Image Converter',
       }
     ],
   },

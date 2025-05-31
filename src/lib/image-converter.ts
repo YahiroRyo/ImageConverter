@@ -2,6 +2,7 @@
 
 import { ImageMagick, initializeImageMagick, MagickFormat, MagickGeometry } from '@imagemagick/magick-wasm'
 import { parseError, logError } from './error-handler'
+import { convertImageWithFFmpeg, isFFmpegFormatSupported } from './ffmpeg-converter'
 
 let isInitialized = false
 
@@ -62,6 +63,7 @@ export interface ConversionResult {
   error?: string
   originalSize?: number
   newSize?: number
+  usedFallback?: boolean // フォールバックが使用されたかを示すフラグ
 }
 
 export async function convertImage(
@@ -119,7 +121,7 @@ export async function convertImage(
             'JPG': 'Jpeg',
             'JPEG': 'Jpeg',
             'PNG': 'Png',
-            'WEBP': 'Webp',
+            'WEBP': 'WebP',  // WebPの場合は大文字Pも試行
             'GIF': 'Gif',
             'BMP': 'Bmp',
             'TIFF': 'Tiff',
@@ -232,11 +234,22 @@ export async function convertImage(
           
           // まず一般的なマッピングを試す
           let magickFormatKey: string | undefined = formatMapping[normalizedFormat]
+          
           if (!magickFormatKey) {
-            // マッピングにない場合は、MagickFormatから直接検索
-            magickFormatKey = Object.keys(MagickFormat).find(key => 
-              key.toUpperCase() === normalizedFormat
-            )
+            // マッピングにない場合は、複数のバリアントを試す
+            const variants = [
+              normalizedFormat,
+              normalizedFormat.toLowerCase(),
+              normalizedFormat.charAt(0).toUpperCase() + normalizedFormat.slice(1).toLowerCase(),
+              normalizedFormat.toLowerCase().charAt(0).toUpperCase() + normalizedFormat.slice(1).toLowerCase()
+            ]
+            
+            for (const variant of variants) {
+              magickFormatKey = Object.keys(MagickFormat).find(key => 
+                key === variant || key.toUpperCase() === variant.toUpperCase()
+              )
+              if (magickFormatKey) break
+            }
           }
           
           if (!magickFormatKey) {
@@ -266,25 +279,80 @@ export async function convertImage(
               success: true,
               data,
               originalSize,
-              newSize
+              newSize,
+              usedFallback: false
             })
           })
         } catch (error) {
-          console.error('画像処理エラー:', error)
+          console.error('ImageMagick処理エラー:', error)
           
-          // エラーハンドラーを使用してユーザーフレンドリーなエラーメッセージを生成
-          const errorInfo = parseError(error)
-          logError(error, errorInfo)
+          // ImageMagickでエラーが発生した場合、FFmpegでフォールバックを試す
+          console.log('ImageMagickでエラーが発生しました。FFmpegフォールバックを試行します...')
           
-          resolve({
-            success: false,
-            error: errorInfo.userMessage
-          })
+          // FFmpegがサポートするフォーマットかチェック
+          if (isFFmpegFormatSupported(outputFormat)) {
+            convertImageWithFFmpeg(inputBuffer, inputFormat, outputFormat, options)
+              .then((ffmpegResult) => {
+                if (ffmpegResult.success) {
+                  console.log('FFmpegフォールバックが成功しました')
+                  resolve({
+                    ...ffmpegResult,
+                    usedFallback: true
+                  })
+                } else {
+                  console.error('FFmpegフォールバックも失敗しました')
+                  const errorInfo = parseError(error)
+                  logError(error, errorInfo)
+                  resolve({
+                    success: false,
+                    error: `ImageMagickとFFmpegの両方でエラーが発生しました: ${errorInfo.userMessage}`,
+                    usedFallback: false
+                  })
+                }
+              })
+              .catch((ffmpegError) => {
+                console.error('FFmpegフォールバックエラー:', ffmpegError)
+                const errorInfo = parseError(error)
+                logError(error, errorInfo)
+                resolve({
+                  success: false,
+                  error: `ImageMagickとFFmpegの両方でエラーが発生しました: ${errorInfo.userMessage}`,
+                  usedFallback: false
+                })
+              })
+          } else {
+            console.log('FFmpegはこのフォーマットをサポートしていません')
+            const errorInfo = parseError(error)
+            logError(error, errorInfo)
+            resolve({
+              success: false,
+              error: errorInfo.userMessage,
+              usedFallback: false
+            })
+          }
         }
       })
     })
   } catch (error) {
     console.error('画像変換エラー:', error)
+    
+    // 初期化エラーの場合もFFmpegでフォールバックを試す
+    if (isFFmpegFormatSupported(outputFormat)) {
+      console.log('ImageMagick初期化エラー。FFmpegフォールバックを試行します...')
+      
+      try {
+        const ffmpegResult = await convertImageWithFFmpeg(inputBuffer, inputFormat, outputFormat, options)
+        if (ffmpegResult.success) {
+          console.log('FFmpegフォールバックが成功しました')
+          return {
+            ...ffmpegResult,
+            usedFallback: true
+          }
+        }
+      } catch (ffmpegError) {
+        console.error('FFmpegフォールバックエラー:', ffmpegError)
+      }
+    }
     
     // エラーハンドラーを使用してユーザーフレンドリーなエラーメッセージを生成
     const errorInfo = parseError(error)
@@ -292,7 +360,8 @@ export async function convertImage(
     
     return {
       success: false,
-      error: errorInfo.userMessage
+      error: errorInfo.userMessage,
+      usedFallback: false
     }
   }
 }
@@ -348,7 +417,7 @@ export function isMagickFormatAvailable(format: string): boolean {
     'JPG': 'Jpeg',
     'JPEG': 'Jpeg',
     'PNG': 'Png',
-    'WEBP': 'Webp',
+    'WEBP': 'WebP',  // WebPの場合は大文字Pも試行
     'GIF': 'Gif',
     'BMP': 'Bmp',
     'TIFF': 'Tiff',
@@ -462,10 +531,20 @@ export function isMagickFormatAvailable(format: string): boolean {
   // まず一般的なマッピングを試す
   let magickFormatKey: string | undefined = formatMapping[normalizedFormat]
   if (!magickFormatKey) {
-    // マッピングにない場合は、MagickFormatから直接検索
-    magickFormatKey = Object.keys(MagickFormat).find(key => 
-      key.toUpperCase() === normalizedFormat
-    )
+    // マッピングにない場合は、複数のバリアントを試す
+    const variants = [
+      normalizedFormat,
+      normalizedFormat.toLowerCase(),
+      normalizedFormat.charAt(0).toUpperCase() + normalizedFormat.slice(1).toLowerCase(),
+      normalizedFormat.toLowerCase().charAt(0).toUpperCase() + normalizedFormat.slice(1).toLowerCase()
+    ]
+    
+    for (const variant of variants) {
+      magickFormatKey = Object.keys(MagickFormat).find(key => 
+        key === variant || key.toUpperCase() === variant.toUpperCase()
+      )
+      if (magickFormatKey) break
+    }
   }
   
   return !!magickFormatKey && magickFormatKey in MagickFormat
