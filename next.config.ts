@@ -19,6 +19,8 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  output: 'standalone',
   
   webpack: (config, { isServer }) => {
     // WASMファイルの処理設定
