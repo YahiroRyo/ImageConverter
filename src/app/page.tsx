@@ -38,13 +38,13 @@ export default function HomePage() {
           <div className="flex flex-col items-center text-center space-y-8">
             {/* ロゴとタイトル */}
             <div className="flex items-center gap-4 mb-4">
-              <div className="flex items-center justify-center w-20 h-20 bg-primary/10 rounded-full p-3 shadow-lg">
+              <div className="flex items-center justify-center w-20 h-20 bg-white/95 dark:bg-gray-800 rounded-full p-3 shadow-lg border-4 border-gray-200 dark:border-gray-600">
                 <Image 
                   src="/icon.png"
                   alt="Closed Image Converter"
                   width={64}
                   height={64}
-                  className="rounded-full"
+                  className="rounded-full dark:invert"
                   priority
                 />
               </div>
@@ -71,7 +71,7 @@ export default function HomePage() {
               <p className="text-2xl lg:text-3xl font-semibold text-primary">
                 プライベート重視の画像変換ツール
               </p>
-              <div className="flex items-center justify-center gap-2 text-green-600 bg-green-50/50 rounded-full px-4 py-2 border border-green-200">
+              <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-green-950/30 rounded-full px-4 py-2 border border-green-200 dark:border-green-800">
                 <Shield className="h-5 w-5" />
                 <span className="font-medium">
                   画像はお使いの端末内でのみ処理されます
@@ -105,11 +105,11 @@ export default function HomePage() {
                 />
               </div>
               <div className="flex items-center gap-1">
-                <Shield className="h-4 w-4 text-green-600" />
+                <Shield className="h-4 w-4 text-green-600 dark:text-green-400" />
                 <span>データを外部送信しません</span>
               </div>
               <div className="flex items-center gap-1">
-                <Download className="h-4 w-4 text-blue-600" />
+                <Download className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 <span>ソフトのインストール不要</span>
               </div>
             </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
       </section>
 
       {/* 特徴セクション */}
-      <section id="features" className="py-20 bg-muted/30">
+      <section id="features" className="py-20 bg-muted/30 dark:bg-muted/10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
@@ -131,15 +131,15 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* 完全プライベート */}
-            <Card className="border-2 border-green-200 bg-green-50/50">
+            <Card className="border-2 border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/30">
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-green-600" />
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-green-200 dark:border-green-600">
+                  <Shield className="h-8 w-8 text-green-600 dark:text-green-300" />
                 </div>
-                <CardTitle className="text-green-800">🛡️ データを外部送信しません</CardTitle>
+                <CardTitle className="text-green-800 dark:text-green-300">🛡️ データを外部送信しません</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-center text-green-700">
+                <CardDescription className="text-center text-green-700 dark:text-green-300">
                   画像データはお使いの端末から外に出ることがありません。すべての変換処理はブラウザ内で完結します。
                 </CardDescription>
               </CardContent>
@@ -148,8 +148,8 @@ export default function HomePage() {
             {/* 豊富なフォーマット */}
             <Card>
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <ImageIcon className="h-8 w-8 text-blue-600" />
+                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-blue-200 dark:border-blue-600">
+                  <ImageIcon className="h-8 w-8 text-blue-600 dark:text-blue-300" />
                 </div>
                 <CardTitle>🖼️ 豊富なファイル形式に対応</CardTitle>
               </CardHeader>
@@ -166,8 +166,8 @@ export default function HomePage() {
             {/* 簡単操作 */}
             <Card>
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Smartphone className="h-8 w-8 text-purple-600" />
+                <div className="w-16 h-16 bg-purple-100 dark:bg-purple-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-purple-200 dark:border-purple-600">
+                  <Smartphone className="h-8 w-8 text-purple-600 dark:text-purple-300" />
                 </div>
                 <CardTitle>📱 ドラッグ＆ドロップで簡単</CardTitle>
               </CardHeader>
@@ -181,8 +181,8 @@ export default function HomePage() {
             {/* 高度な設定 */}
             <Card>
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Settings className="h-8 w-8 text-orange-600" />
+                <div className="w-16 h-16 bg-orange-100 dark:bg-orange-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-orange-200 dark:border-orange-600">
+                  <Settings className="h-8 w-8 text-orange-600 dark:text-orange-300" />
                 </div>
                 <CardTitle>⚙️ 画質とサイズを調整可能</CardTitle>
               </CardHeader>
@@ -196,8 +196,8 @@ export default function HomePage() {
             {/* 高性能 */}
             <Card>
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-red-600" />
+                <div className="w-16 h-16 bg-red-100 dark:bg-red-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-200 dark:border-red-600">
+                  <Zap className="h-8 w-8 text-red-600 dark:text-red-300" />
                 </div>
                 <CardTitle>🚀 プロ品質の変換技術</CardTitle>
               </CardHeader>
@@ -211,8 +211,8 @@ export default function HomePage() {
             {/* クロスプラットフォーム */}
             <Card>
               <CardHeader className="text-center">
-                <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Monitor className="h-8 w-8 text-indigo-600" />
+                <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-800 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-indigo-200 dark:border-indigo-600">
+                  <Monitor className="h-8 w-8 text-indigo-600 dark:text-indigo-300" />
                 </div>
                 <CardTitle>💻 どんな端末でも利用可能</CardTitle>
               </CardHeader>
@@ -227,19 +227,19 @@ export default function HomePage() {
       </section>
 
       {/* プライバシー強調セクション */}
-      <section className="py-20 bg-gradient-to-r from-green-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950/20 dark:to-blue-950/20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8">
-              <Lock className="h-10 w-10 text-green-600" />
+            <div className="w-20 h-20 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-green-200 dark:border-green-600">
+              <Lock className="h-10 w-10 text-green-600 dark:text-green-300" />
             </div>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-green-800">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-green-800 dark:text-green-300">
               プライバシーを最優先に考えています
             </h2>
-            <div className="space-y-4 text-lg text-green-700">
+            <div className="space-y-4 text-lg text-green-700 dark:text-green-300">
               <p>
                 他の画像変換サービスとは違い、Closed Image Converterは
-                <strong className="text-green-800">画像データを一切外部に送信しません</strong>。
+                <strong className="text-green-800 dark:text-green-200">画像データを一切外部に送信しません</strong>。
               </p>
               <p>
                 変換処理はすべてお使いの端末内で行われるため、大切な写真や機密性の高い画像も
@@ -248,17 +248,17 @@ export default function HomePage() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-6 mt-12">
-              <div className="flex items-center gap-3 p-4 bg-white/70 rounded-lg">
-                <Check className="h-6 w-6 text-green-600 flex-shrink-0" />
-                <span className="text-green-800 font-medium">ログを一切保存しません</span>
+              <div className="flex items-center gap-3 p-4 bg-white/70 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                <Check className="h-6 w-6 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-green-800 dark:text-green-300 font-medium">ログを一切保存しません</span>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-white/70 rounded-lg">
-                <Check className="h-6 w-6 text-green-600 flex-shrink-0" />
-                <span className="text-green-800 font-medium">データの外部送信なし</span>
+              <div className="flex items-center gap-3 p-4 bg-white/70 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                <Check className="h-6 w-6 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-green-800 dark:text-green-300 font-medium">データの外部送信なし</span>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-white/70 rounded-lg">
-                <Check className="h-6 w-6 text-green-600 flex-shrink-0" />
-                <span className="text-green-800 font-medium">ユーザー登録不要</span>
+              <div className="flex items-center gap-3 p-4 bg-white/70 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                <Check className="h-6 w-6 text-green-600 dark:text-green-400 flex-shrink-0" />
+                <span className="text-green-800 dark:text-green-300 font-medium">ユーザー登録不要</span>
               </div>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function HomePage() {
                 alt="Closed Image Converter"
                 width={32}
                 height={32}
-                className="rounded-full"
+                className="rounded-full dark:invert"
               />
               <span className="font-semibold">Closed Image Converter</span>
             </div>

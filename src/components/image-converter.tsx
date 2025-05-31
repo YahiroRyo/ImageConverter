@@ -139,13 +139,13 @@ export default function ImageConverter() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/30">
+    <div className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-8">
         {/* 簡素化されたヘッダー */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2 text-sm">
-            <Shield className="h-4 w-4 text-green-600" />
-            <span className="text-green-700 font-medium">
+            <Shield className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <span className="text-green-700 dark:text-green-300 font-medium">
               サーバーに画像データを送信しません
             </span>
           </div>
@@ -194,7 +194,7 @@ export default function ImageConverter() {
 
         {/* フッター */}
         <div className="text-center pt-8">
-          <div className="inline-flex items-center space-x-2 text-green-600 bg-green-50 px-4 py-2 rounded-full">
+          <div className="inline-flex items-center space-x-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 px-4 py-2 rounded-full border border-green-200 dark:border-green-800">
             <Shield className="w-4 h-4" />
             <span className="text-sm font-medium">
               すべての処理はお使いのブラウザ内で実行されます

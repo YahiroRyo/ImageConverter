@@ -148,7 +148,7 @@ export default function ConversionSettingsPanel({
                           )}
                         />
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs bg-blue-50">{format.format}</Badge>
+                          <Badge variant="outline" className="text-xs bg-blue-50 dark:bg-blue-950">{format.format}</Badge>
                           <span className="text-sm">{format.description}</span>
                         </div>
                       </CommandItem>
@@ -175,7 +175,7 @@ export default function ConversionSettingsPanel({
                           )}
                         />
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs bg-purple-50">{format.format}</Badge>
+                          <Badge variant="outline" className="text-xs bg-purple-50 dark:bg-purple-950">{format.format}</Badge>
                           <span className="text-sm">{format.description}</span>
                         </div>
                       </CommandItem>

@@ -18,13 +18,13 @@ export default function Navigation() {
         <div className="flex h-16 items-center justify-between">
           {/* ロゴとブランド名 */}
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="flex items-center justify-center w-10 h-10 bg-primary/10 rounded-full p-2 shadow-sm dark:bg-primary/20">
+            <div className="flex items-center justify-center w-10 h-10 bg-white/90 dark:bg-gray-800 rounded-full p-2 shadow-sm border-2 border-gray-200 dark:border-gray-600">
               <Image
                 src="/icon.png"
                 alt="Closed Image Converter"
                 width={24}
                 height={24}
-                className="rounded-full"
+                className="rounded-full dark:invert"
               />
             </div>
             <div className="flex flex-col">

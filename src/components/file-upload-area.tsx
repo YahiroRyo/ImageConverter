@@ -76,7 +76,7 @@ export default function FileUploadArea({
             <span>85種類の入力、92種類の出力フォーマットに対応</span>
             <FormatListDialog />
           </div>
-          <div className="flex items-center gap-1 text-green-600">
+          <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
             <Shield className="h-3 w-3" />
             <span className="text-xs font-medium">アップロードした画像はお使いのデバイス内でのみ処理されます</span>
           </div>
@@ -103,12 +103,12 @@ export default function FileUploadArea({
                 <p className="text-xs text-muted-foreground mt-4">
                   JPEG、PNG、WEBP、RAW、HDRなど幅広いフォーマットに対応
                 </p>
-                <p className="text-blue-600 text-sm">📄 最大ファイルサイズ: 制限なし（メモリ容量に依存）</p>
+                <p className="text-blue-600 dark:text-blue-400 text-sm">📄 最大ファイルサイズ: 制限なし（メモリ容量に依存）</p>
               </div>
             )}
           </div>
         ) : (
-          <div className="p-6 border rounded-lg bg-muted/30">
+          <div className="p-6 border rounded-lg bg-muted/30 dark:bg-muted/20">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <img 

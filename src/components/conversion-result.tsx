@@ -51,7 +51,7 @@ export default function ConversionResult({
             </Alert>
             
             {result.originalSize && result.newSize && (
-              <div className="grid grid-cols-2 gap-4 p-4 bg-muted rounded-lg">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 dark:bg-muted/30 rounded-lg">
                 <div className="text-center">
                   <p className="text-sm text-muted-foreground">元のサイズ</p>
                   <p className="text-lg font-semibold">
